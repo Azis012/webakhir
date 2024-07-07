@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-10">
+    {% if mydata %}
+    <h3 class="page-header text-primary text-center">Dataset Details</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="text-align:center">No</th>
+                <th>Nama Dataset</th>
+                <th>Nama Kolom</th>
+                <th>Tipe Data</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        {% for data in mydata %}
+        <tbody>
+            <tr>
+                <td style="text-align:center" rowspan="{{ data.columns|length }}">{{ forloop.counter }}</td>
+                <td rowspan="{{ data.columns|length }}">{{ data.nama_dataset }}</td>
+                <td>{{ data.columns.0.name }}</td>
+                <td>{{ data.columns.0.data_type }}</td>
+                <td rowspan="{{ data.columns|length }}">{{ data.status }}</td>
+            </tr>
+            {% for column in data.columns|slice:"1:" %}
+            <tr>
+                <td>{{ column.name }}</td>
+                <td>{{ column.data_type }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

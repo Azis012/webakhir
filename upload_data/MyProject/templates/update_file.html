@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-10">
+    <h3 class="page-header text-primary text-center">Update File Details</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_file_name">File Name:</label>
+            {{ form.file_name }}
+        </div>
+        <div class="form-group">
+            <label for="id_my_file">My File:</label>
+            {{ form.my_file }}
+        </div>
+        <div class="form-group">
+            <label for="id_creator_name">Creator Name:</label>
+            {{ form.creator_name }}
+        </div>
+        <div class="form-group">
+            <label for="id_status">Status:</label>
+            {{ form.status }}
+        </div>
+        <div class="form-group">
+            <label for="id_created_at">Tanggal Pembuatan:</label>
+            {{ form.created_at }}
+        </div>
+        <div class="form-group">
+            <label for="id_project_id">Id Projek:</label>
+            {{ form.project_id }}
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+{% endblock %}

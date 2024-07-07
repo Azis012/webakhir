@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+{% block content %}
+    <div class="container-fluid" style="margin-top:50px">
+        <div class="col-md-offset-1 col-md-4">
+            <h1 class="page-header upload-files-header">Upload Files</h1>
+
+            {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error'%}
+                    <div class="alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>    
+                {% endif %}                
+            {% endfor %}
+            {% endif %}
+
+            <form action="{% url 'uploadfile' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>File Name</label>
+                    {{ form.file_name }}
+                </div>
+                <div class="form-group">
+                    <label>File</label>
+                    {{ form.my_file }}
+                </div>
+                <div class="form-group">
+                    <label for="id_nama_pembuat">Nama Pembuat</label>
+                    {{ form.creator_name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_status">Status:</label>
+                    {{ form.status }}
+                </div>
+                <div class="form-group">
+                    <label for="id_created_at">Tanggal Pembuatan</label>
+                    {{ form.created_at }}
+                </div>
+                <div class="form-group">
+                    <label for="id_project_id">Id Projek</label>
+                    {{ form.project_id }}  <!-- Tambahkan field ini -->
+                </div>
+                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

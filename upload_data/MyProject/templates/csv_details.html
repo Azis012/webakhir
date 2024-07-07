@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSV Details</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .scrollable {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .stats {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSV File Details</h1>
+    <p><strong>File Name:</strong> {{ file_name }}</p>
+    <p><strong>Number of Rows:</strong> {{ num_rows }}</p>
+    <p><strong>Number of Columns:</strong> {{ num_columns }}</p>
+
+    <div class="stats">
+        <h2>Column Statistics</h2>
+        {% for column, stat in stats.items %}
+            <h3>{{ column }}</h3>
+            <ul>
+                <li><strong>Unique Values:</strong> {{ stat.unique }}</li>
+                <li><strong>Missing Values:</strong> {{ stat.missing }}</li>
+                <li><strong>Most Common Value:</strong> {{ stat.most_common }}</li>
+                {% if stat.mean != 'N/A' %}
+                    <li><strong>Mean:</strong> {{ stat.mean }}</li>
+                    <li><strong>Standard Deviation:</strong> {{ stat.std }}</li>
+                    <li><strong>Min:</strong> {{ stat.min }}</li>
+                    <li><strong>Max:</strong> {{ stat.max }}</li>
+                {% endif %}
+            </ul>
+        {% endfor %}
+    </div>
+
+    {% if image_path %}
+        <div class="histogram">
+            <h2>Harga Histogram</h2>
+            <img src="{% static image_path %}" alt="Histogram of Harga">
+        </div>
+    {% endif %}
+
+    <div class="scrollable">
+        <h2>Preview of CSV Data</h2>
+        <table>
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data_frame %}
+                    <tr>
+                        {% for cell in row %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

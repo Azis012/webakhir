@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+<div class="col-md-10">
+    <form method="GET" action="{% url 'view' %}">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search by File Name" name="q" value="{{ query }}">
+            <div class="input-group-append">
+                <button class="btn btn-primary text-white" type="submit">Search</button> <!-- Tambahkan kelas btn-primary dan text-white -->
+            </div>
+        </div>
+    </form>
+    {% if mydata %}
+    <h3 class="page-header text-primary text-center">View File</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="text-align:center">No</th>
+                <th>File Name</th>
+                <th>File</th>
+                <th>Nama Pembuat</th>
+                <th>Id Projek</th>
+                <th>Nama Projek</th> <!-- Tambahkan kolom Nama Projek -->
+                <th>Status</th>
+                <th>Tanggal Pembuatan</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        {% for data in mydata %}
+        <tbody>
+            <tr>
+                <td style="text-align:center">{{ forloop.counter }}</td>
+                <td>{{ data.file_name }}</td>
+                <td>
+                    {% if data.my_file %}
+                        <a href="{{ data.my_file.url }}" class="text-primary">Download</a>
+                    {% else %}
+                        No file available
+                    {% endif %}
+                </td>
+                <td>{{ data.creator_name }}</td>
+                <td>{{ data.project_id }}</td> <!-- Menampilkan project_id -->
+                <td>{{ project_id_to_name|get_item:data.project_id }}</td> <!-- Menampilkan project_name -->
+                <td>{{ data.status }}</td>
+                <td>{{ data.created_at|date:"d-m-Y" }}</td>
+                <td style="text-align:center">
+                    <a href="{% url 'deleteFile' data.id %}" class="btn btn-danger">Delete</a>
+                    <a href="{% url 'csv_details' data.id %}" class="btn btn-primary">View</a>
+                    <a href="{% url 'update_file' data.id %}" class="btn btn-warning">Update</a>
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endblock %}
